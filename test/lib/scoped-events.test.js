@@ -25,7 +25,16 @@ describe('lib/scoped-events', function() {
     fnSpy3 = null;
   });
 
-  describe('mixin', function() {
+  describe('ScopedEvents.Dispatcher', function() {
+    it('should return the same instance each time', function() {
+      var Dispatcher = require('../../lib/scoped-events').Dispatcher;
+      var DispatcherTwo = require('../../lib/scoped-events').Dispatcher;
+      Dispatcher.on('testOne', fnSpy);
+      DispatcherTwo._listeners.should.have.property('testOne');
+    });
+  });
+
+  describe('ScopedEvents.mixin', function() {
 
     it('should mixin the on, remove, and trigger methods', function() {
       function testClass() {
