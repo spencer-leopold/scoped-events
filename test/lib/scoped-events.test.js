@@ -227,6 +227,25 @@ describe('lib/scoped-events', function() {
         fnSpy.should.have.been.calledTwice;
       });
 
+      it('should send the child scope as the last argument to the parent scope', function() {
+        Events.on('test', fnSpy);
+        Events.on('test:scope', fnSpy);
+        Events.on('test:scope:two', fnSpy);
+
+        Events.trigger('test:scope:two', 'arg1');
+
+        fnSpy.should.have.been.calledThrice;
+
+        fnSpy.args[0][0].should.equal('arg1');
+        expect(fnSpy.args[0][1]).to.equal(null);
+
+        fnSpy.args[1][0].should.equal('arg1');
+        fnSpy.args[1][1].should.equal('two');
+
+        fnSpy.args[2][0].should.equal('arg1');
+        fnSpy.args[2][1].should.equal('scope:two');
+      });
+
       it('should trigger the "all" event', function() {
         Events.on('all', fnSpy);
         Events.on('test', fnSpy2);
@@ -271,7 +290,6 @@ describe('lib/scoped-events', function() {
         fnSpy2.args[1][2].should.equal('arg2-2');
         fnSpy2.should.have.been.calledTwice;
       });
-
     });
 
     describe('#getExistingMatch()', function() {
