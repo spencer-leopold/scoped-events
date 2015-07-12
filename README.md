@@ -11,5 +11,5 @@ Small event library that lets you namespace/scope your events. Also includes a m
 With [npm](http://npmjs.org) do:
 
 ```
-npm install -S scoped-events
+npm install scoped-events
 ```
