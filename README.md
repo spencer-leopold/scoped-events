@@ -1,6 +1,6 @@
 [![travis-ci status](https://api.travis-ci.org/spencer-leopold/scoped-events.png)](http://travis-ci.org/#!/spencer-leopold/scoped-events/builds)
 [![Dependency Status](https://david-dm.org/spencer-leopold/scoped-events.png)](https://david-dm.org/spencer-leopold/scoped-events)
-[![Coverage Status](https://coveralls.io/repos/spencer-leopold/scoped-events/badge.png)](https://coveralls.io/r/spencer-leopold/scoped-events)
+[![Coverage Status](https://coveralls.io/repos/spencer-leopold/scoped-events/badge.svg?branch=master&service=github)](https://coveralls.io/github/spencer-leopold/scoped-events?branch=master)
 
 # ScopedEvents
 
