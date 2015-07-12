@@ -99,6 +99,11 @@ describe('lib/scoped-events', function() {
 
   describe('ScopedEvents', function() {
     describe('#on()', function() {
+      it('should throw an error if no function callback is passed', function() {
+        expect(function() {
+          Events.on('test')
+        }).to.throw('A callback function is required when adding an event listener');
+      });
 
       it('should create one listener per original event', function() {
         Events.on('test', fnSpy);
@@ -130,6 +135,14 @@ describe('lib/scoped-events', function() {
     });
 
     describe('#remove()', function() {
+      it('should remove all listeners if called with no arguments', function() {
+        Events.on('testOne', fnSpy);
+        Events.on('testTwo', fnSpy2);
+        Object.keys(Events._listeners).should.have.length(2);
+        Events.remove();
+        Events._listeners.should.deep.equal([]);
+      });
+
       it('should remove all listeners under event if only event is passed', function() {
         Events.on('test', fnSpy);
         Events.on('test', fnSpy2);
@@ -215,6 +228,62 @@ describe('lib/scoped-events', function() {
         fnSpy.args[0][0].should.equal('test');
         fnSpy.args[1][0].should.equal('test:scope');
       });
+    });
+
+    describe('#triggerEventAll()', function() {
+
+      it('should be called anytime an event is triggered', function() {
+        Events.on('testOne', fnSpy);
+        Events.on('testTwo', fnSpy);
+        Events.on('testThree', fnSpy);
+        Events.on('all', fnSpy2);
+
+        Events.trigger('testOne');
+        Events.trigger('testTwo');
+        Events.trigger('testThree');
+
+        fnSpy2.should.have.been.calledThrice;
+      });
+
+      it('should receive the events name and any additional arguments', function() {
+        Events.on('testOne', fnSpy);
+        Events.on('testTwo', fnSpy);
+        Events.on('all', fnSpy2);
+
+        Events.trigger('testOne', 'arg1', 'arg2');
+        Events.trigger('testTwo', 'arg2-1', 'arg2-2');
+
+        fnSpy2.args[0][0].should.equal('testOne');
+        fnSpy2.args[0][1].should.equal('arg1');
+        fnSpy2.args[0][2].should.equal('arg2');
+
+        fnSpy2.args[1][0].should.equal('testTwo');
+        fnSpy2.args[1][1].should.equal('arg2-1');
+        fnSpy2.args[1][2].should.equal('arg2-2');
+        fnSpy2.should.have.been.calledTwice;
+      });
+
+    });
+
+    describe('#getExistingMatch()', function() {
+
+      it('should return an array of indexes of matching listeners', function() {
+        var ctx = {};
+
+        Events.on('test', fnSpy);
+        Events.on('test', fnSpy2);
+        Events.on('test', fnSpy, ctx);
+
+        var indexes1 = Events.getExistingMatch(Events._listeners['test'], fnSpy, Events);
+        indexes1.should.have.length(1);
+
+        var indexes2 = Events.getExistingMatch(Events._listeners['test'], fnSpy);
+        indexes2.should.have.length(2);
+
+        var indexes3 = Events.getExistingMatch(Events._listeners['test'], fnSpy2);
+        indexes3.should.have.length(1);
+      });
+
     });
   });
 
