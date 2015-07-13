@@ -234,16 +234,24 @@ describe('lib/scoped-events', function() {
 
         Events.trigger('test:scope:two', 'arg1');
 
+        Events.on('load', fnSpy2);
+
+        Events.trigger('load:sliders');
+
         fnSpy.should.have.been.calledThrice;
 
-        expect(fnSpy.args[0][0]).to.equal(null);
+        fnSpy2.should.have.been.calledOnce;
+
+        fnSpy.args[0][0].should.equal('scope:two');
         fnSpy.args[0][1].should.equal('arg1');
 
         fnSpy.args[1][0].should.equal('two');
         fnSpy.args[1][1].should.equal('arg1');
 
-        fnSpy.args[2][0].should.equal('scope:two');
+        expect(fnSpy.args[2][0]).to.equal(null);
         fnSpy.args[2][1].should.equal('arg1');
+
+        fnSpy2.args[0][0].should.equal('sliders');
       });
 
       it('should trigger the "all" event', function() {
