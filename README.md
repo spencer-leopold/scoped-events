@@ -37,7 +37,7 @@ EventDispatcher.on('event', callback);
 // Works on plain object too
 var eventMixin = require('scoped-events').mixin;
 
-function Person() {
+function PersonClass() {
   this.name = 'Anonymous';
 
   this.on('all', function(event) {
@@ -47,11 +47,11 @@ function Person() {
 
 eventMixin(PersonClass);
 
-Person.prototype.setName = function(name) {
+PersonClass.prototype.setName = function(name) {
   this.name = name;
   this.trigger('name:set');
-}
+};
 
 var Person = new PersonClass();
-Person.trigger('event:to:trigger')
+Person.trigger('event:to:trigger');
 ```
