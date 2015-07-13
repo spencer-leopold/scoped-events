@@ -18,67 +18,40 @@ npm install scoped-events
 
 You can use ScopedEvents directly, as an Event Dispatcher (singleton), or as a mixin to add the functionality to your own protoypes or objects.
 
-# Use as a Dispatcher
+# Details
+
+When you trigger an event, if it is a child scope of another event, it will trigger all of it's parents as well.  So if you have the events "routes" and "routes:add" when you trigger "routes:add" it will also trigger "routes" - The first argument to any listener callbacks is either the child scope that triggered it, or null.  So when "routes:add" triggers "routes", the first argument the callback for "routes" receives is "add".
 
 ```
-var Dispatcher = require('scoped-events').Dispatcher;
+// Normal use
+var ScopedEvents = require('scoped-events');
+var Events = new ScopedEvents();
 
-var myObject = {
-  buttons: {
-    registOpen: '.open--register-dialog',
-    registerClose: '.close--register-dialog'
-  },
+Events.on('event', callback);
 
-  bindUIEvents: function() {
-    var buttons = this.buttons;
-    $(buttons.registerOpen).on('click', Dispatcher.trigger('open:RegisterDialog', 'opening dialog'));
-  }
-};
+// Dispatcher use
+var EventDispatcher = require('scoped-events').Dispatcher;
+EventDispatcher.on('event', callback);
 
-myObject.bindUIEvents();
-
-
-// In a separate file
-
-var Dispatcher = require('scoped-events').Dispatcher;
-
-var myDialogFactory = {
-  init: function() {
-    Dispatcher.on('open', this.openDialog, this);
-    Dispatcher.on('close', this.closeDialog, this);
-  },
-
-  // Child scope will always be passed as the first
-  // argument to subscribers
-  openDialog: function(name, msg) {
-    if (name === 'RegisterDialog') {
-      // do something to create the dialog
-    }
-  },
-
-  // Child scope will always be passed as the first
-  // argument to subscribers
-  closeDialog: function(name, e) {}
-};
-
-myDialogFactory.init();
-```
-
-# Use as a mixin
-
-```
+// Mixin use
+// Works on plain object too
 var eventMixin = require('scoped-events').mixin;
 
 function Person() {
   this.name = 'Anonymous';
+
+  this.on('all', function(event) {
+    console.log("Called event: %s", event);
+  });
 }
+
+eventMixin(PersonClass);
 
 Person.prototype.setName = function(name) {
   this.name = name;
+  this.trigger('name:set');
 }
 
-eventMixin(Person);
-
-module.exports = Person;
+var Person = new PersonClass();
+Person.trigger('event:to:trigger')
 ```
-
