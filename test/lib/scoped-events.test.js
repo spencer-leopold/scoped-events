@@ -236,14 +236,14 @@ describe('lib/scoped-events', function() {
 
         fnSpy.should.have.been.calledThrice;
 
-        fnSpy.args[0][0].should.equal('arg1');
-        expect(fnSpy.args[0][1]).to.equal(null);
+        expect(fnSpy.args[0][0]).to.equal(null);
+        fnSpy.args[0][1].should.equal('arg1');
 
-        fnSpy.args[1][0].should.equal('arg1');
-        fnSpy.args[1][1].should.equal('two');
+        fnSpy.args[1][0].should.equal('two');
+        fnSpy.args[1][1].should.equal('arg1');
 
-        fnSpy.args[2][0].should.equal('arg1');
-        fnSpy.args[2][1].should.equal('scope:two');
+        fnSpy.args[2][0].should.equal('scope:two');
+        fnSpy.args[2][1].should.equal('arg1');
       });
 
       it('should trigger the "all" event', function() {
