@@ -16,7 +16,7 @@ npm install scoped-events
 
 # Usage
 
-You can use ScopedEvents directly, as an Event Dispatcher (singleton), or as a mixin to add the functionality to your own protoypes or objects.
+You can use ScopedEvents directly, as an Event Dispatcher (singleton), or as a mixin to add the functionality to your own prototypes or objects.
 
 # Details
 
@@ -34,7 +34,7 @@ var EventDispatcher = require('scoped-events').Dispatcher;
 EventDispatcher.on('event', callback);
 
 // Mixin use
-// Works on plain object too
+// Works on plain objects too
 var eventMixin = require('scoped-events').mixin;
 
 function PersonClass() {
