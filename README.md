@@ -69,16 +69,16 @@ myDialogFactory.init();
 ```
 var eventMixin = require('scoped-events').mixin;
 
-function myClass() {
+function Person() {
   this.name = 'Anonymous';
 }
 
-myClass.prototype.setName = function(name) {
+Person.prototype.setName = function(name) {
   this.name = name;
 }
 
-eventMixin(myClass);
+eventMixin(Person);
 
-module.exports = myClass;
+module.exports = Person;
 ```
 
