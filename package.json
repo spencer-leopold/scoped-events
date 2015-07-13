@@ -1,6 +1,6 @@
 {
   "name": "scoped-events",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Small event library that lets you namespace/scope your events",
   "main": "./index.js",
   "scripts": {
