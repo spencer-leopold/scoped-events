@@ -22,7 +22,7 @@ You can use ScopedEvents directly, as an Event Dispatcher (singleton), or as a m
 
 When you trigger an event, if it is a child scope of another event, it will trigger all of it's parents as well.  So if you have the events "routes" and "routes:add" when you trigger "routes:add" it will also trigger "routes" - The first argument to any listener callbacks is either the child scope that triggered it, or null.  So when "routes:add" triggers "routes", the first argument the callback for "routes" receives is "add".
 
-```
+```javascript
 // Normal use
 var ScopedEvents = require('scoped-events');
 var Events = new ScopedEvents();
